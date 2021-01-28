@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表渲染</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>测试：v-for遍历数组</h2>
+      <ul>
+        <li v-for="(p, index) in persons" :key="index">
+          {{index}}->{{p.name}}->{{p.age}}
+          <button @click="deleteP(index)">删除</button>
+          <button @click="updateP(index,{name:'Cat',age:21})">更新</button>
+        </li>
+      </ul>
+      <h2>测试：v-for遍历对象</h2>
+      <ul>
+        <li v-for="(item, index) in persons[0]" :key="index">
+          {{index}}->{{item}}
+        </li>
+      </ul>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          //vue只监视persons本身的改变，没有监视其内部的改变
+          persons: [
+            {
+              name: "Tom",
+              age: 20,
+            },
+            {
+              name: "Jack",
+              age: 21,
+            },
+            {
+              name: "Mary",
+              age: 18,
+            },
+            {
+              name: "Bob",
+              age: 23,
+            },
+          ],
+        },
+        methods: {
+          deleteP(index) {
+            // 删除persons中指定index的p
+            this.persons.splice(index, 1);
+          },
+          updateP(index, newP) {
+            // this.persons[index] = newP; //没有对persons本身改变，只是改变了其内部，没有调用vue重写的变异方法，vue不会更新界面，从而视图没有发生变化
+            // this.persons=[];//对persons本身进行了改变，视图才发生变化
+            this.persons.splice(index, 1, newP); //splice()被vue重写了，所以改变数组内部时也会更新视图
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

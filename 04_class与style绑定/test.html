@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>class与style绑定</title>
+    <style>
+      .aClass {
+        color: red;
+      }
+      .bClass {
+        color: green;
+      }
+      .cClass {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h2>1.class绑定 :class='xxx'</h2>
+      <p class="cClass" :class="a">xxx是字符串</p>
+      <p :class="{aClass:isA,bClass:isB}">xxx是对象</p>
+      <!-- :class 里面是js [] 是数组起的对应作用 -->
+      <p :class="['aClass','cClass']">xxx是数组</p>
+      <h2>2.style绑定</h2>
+      <!-- :style 此时里面是js -->
+      <p :style="{color: activeColor,fontSize: fontSize+'px'}">:style="{color: activeColor,fontSize: fontSize+'px'}"</p>
+      <button @click="update">更新</button>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          a: "aClass",
+          isA: false,
+          isB: true,
+          activeColor: 'red',
+          fontSize: 40
+        },
+        methods: {
+          update() {
+            this.a = "bClass";
+            this.isA = true;
+            this.isB = false;
+            this.activeColor='green';
+            this.fontSize=25;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
